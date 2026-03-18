@@ -13,6 +13,7 @@ const mockModels = [
     size: "150 MB",
     price: "FREE",
     isPro: false,
+    image: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&q=80",
   },
   {
     id: 2,
@@ -23,6 +24,7 @@ const mockModels = [
     size: "200 MB",
     price: "500k",
     isPro: true,
+    image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80",
   },
   {
     id: 3,
@@ -33,6 +35,7 @@ const mockModels = [
     size: "180 MB",
     price: "FREE",
     isPro: false,
+    image: "https://images.unsplash.com/photo-1615529328331-f8917597711f?w=800&q=80",
   },
   {
     id: 4,
@@ -43,6 +46,7 @@ const mockModels = [
     size: "220 MB",
     price: "500k",
     isPro: true,
+    image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80",
   },
   {
     id: 5,
@@ -53,6 +57,7 @@ const mockModels = [
     size: "100 MB",
     price: "FREE",
     isPro: false,
+    image: "https://images.unsplash.com/photo-1556912167-f556f1f39faa?w=800&q=80",
   },
   {
     id: 6,
@@ -63,6 +68,7 @@ const mockModels = [
     size: "190 MB",
     price: "500k",
     isPro: true,
+    image: "https://images.unsplash.com/photo-1620626011761-996317b8d101?w=800&q=80",
   },
 ];
 
@@ -174,10 +180,15 @@ export default function ModelsPage() {
                   className="group glassmorphism rounded-lg overflow-hidden hover:border-accent transition-all duration-300"
                 >
                   {/* Model Image */}
-                  <div className="relative aspect-[4/3] bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center overflow-hidden">
-                    <div className="text-6xl opacity-30 group-hover:scale-110 transition-transform duration-300">
-                      🏠
-                    </div>
+                  <div className="relative aspect-[4/3] bg-surface overflow-hidden">
+                    <img
+                      src={model.image}
+                      alt={model.title}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                    />
+
+                    {/* Dark Overlay */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
 
                     {/* Overlay on hover */}
                     <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">

@@ -7,6 +7,14 @@ export default function ModelDetailPage({ params }: { params: Promise<{ id: stri
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [countdown, setCountdown] = useState(300); // 5 minutes
   const [resolvedParams, setResolvedParams] = useState<{ id: string } | null>(null);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+
+  const images = [
+    "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200&q=80",
+    "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1200&q=80",
+    "https://images.unsplash.com/photo-1615529328331-f8917597711f?w=1200&q=80",
+    "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=1200&q=80",
+  ];
 
   useEffect(() => {
     params.then(setResolvedParams);
@@ -40,6 +48,14 @@ export default function ModelDetailPage({ params }: { params: Promise<{ id: stri
     // You can add a toast notification here
   };
 
+  const nextImage = () => {
+    setActiveImageIndex((prev) => (prev + 1) % images.length);
+  };
+
+  const prevImage = () => {
+    setActiveImageIndex((prev) => (prev - 1 + images.length) % images.length);
+  };
+
   if (!resolvedParams) {
     return null;
   }
@@ -59,18 +75,70 @@ export default function ModelDetailPage({ params }: { params: Promise<{ id: stri
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Left: Image Carousel */}
           <div className="space-y-4">
-            <div className="glassmorphism rounded-lg overflow-hidden aspect-[4/3] flex items-center justify-center">
-              <div className="text-9xl opacity-30">🏠</div>
+            <div className="relative glassmorphism rounded-lg overflow-hidden aspect-[4/3] bg-surface group">
+              <img
+                src={images[activeImageIndex]}
+                alt="Modern Living Room"
+                className="w-full h-full object-cover transition-opacity duration-300"
+              />
+
+              {/* Previous Button */}
+              <button
+                onClick={prevImage}
+                className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full glassmorphism flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-primary/20"
+              >
+                <svg
+                  className="w-6 h-6 text-primary"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path d="M15 19l-7-7 7-7"></path>
+                </svg>
+              </button>
+
+              {/* Next Button */}
+              <button
+                onClick={nextImage}
+                className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full glassmorphism flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-primary/20"
+              >
+                <svg
+                  className="w-6 h-6 text-primary"
+                  fill="none"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path d="M9 5l7 7-7 7"></path>
+                </svg>
+              </button>
+
+              {/* Image Counter */}
+              <div className="absolute bottom-4 right-4 px-3 py-1 rounded-full glassmorphism text-sm">
+                {activeImageIndex + 1} / {images.length}
+              </div>
             </div>
 
             {/* Thumbnail Grid */}
             <div className="grid grid-cols-4 gap-2">
-              {[1, 2, 3, 4].map((i) => (
+              {images.map((img, i) => (
                 <div
                   key={i}
-                  className="glassmorphism rounded-lg aspect-square flex items-center justify-center cursor-pointer hover:border-primary transition-all"
+                  onClick={() => setActiveImageIndex(i)}
+                  className={`glassmorphism rounded-lg aspect-square overflow-hidden cursor-pointer transition-all bg-surface ${
+                    activeImageIndex === i ? "border-2 border-primary" : "hover:border-primary"
+                  }`}
                 >
-                  <span className="text-2xl opacity-30">🏠</span>
+                  <img
+                    src={img}
+                    alt={`Thumbnail ${i + 1}`}
+                    className="w-full h-full object-cover hover:scale-110 transition-transform"
+                  />
                 </div>
               ))}
             </div>
@@ -94,7 +162,7 @@ export default function ModelDetailPage({ params }: { params: Promise<{ id: stri
 
               <button
                 onClick={() => setShowPaymentModal(true)}
-                className="w-full py-4 bg-accent text-black font-bold rounded-lg neon-glow-green hover:scale-105 transition-all duration-300"
+                className="w-full py-4 bg-accent text-black font-bold rounded-lg hover:bg-accent/90 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-accent/50"
               >
                 Mua ngay
               </button>
@@ -170,6 +238,121 @@ export default function ModelDetailPage({ params }: { params: Promise<{ id: stri
             </div>
           </div>
         </div>
+
+        {/* Similar Models Section */}
+        <section className="mt-20">
+          <h2 className="text-3xl font-bold mb-8">Similar Models</h2>
+
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            {[
+              {
+                id: 1,
+                title: "Eichholtz Nova Nickel",
+                image: "https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=400&q=80",
+                isPro: true,
+                comments: 0,
+                likes: 0,
+              },
+              {
+                id: 2,
+                title: "Brage",
+                image: "https://images.unsplash.com/photo-1524484485831-a92ffc0de03f?w=400&q=80",
+                isPro: true,
+                comments: 3,
+                likes: 6,
+              },
+              {
+                id: 3,
+                title: "Classic Glass Chandelier",
+                image: "https://images.unsplash.com/photo-1534449017125-41a7c7fbf643?w=400&q=80",
+                isPro: true,
+                comments: 0,
+                likes: 5,
+              },
+              {
+                id: 4,
+                title: "Addis Diamond Chandelier",
+                image: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80",
+                isPro: true,
+                comments: 0,
+                likes: 3,
+              },
+              {
+                id: 5,
+                title: "Velvet covered chandelier",
+                image: "https://images.unsplash.com/photo-1615529182904-14819c35db37?w=400&q=80",
+                isPro: true,
+                comments: 0,
+                likes: 2,
+              },
+              {
+                id: 6,
+                title: "Quintiesse Saucer pendant",
+                image: "https://images.unsplash.com/photo-1567225557594-88d73e55f2cb?w=400&q=80",
+                isPro: true,
+                comments: 0,
+                likes: 0,
+              },
+            ].map((model) => (
+              <Link
+                key={model.id}
+                href={`/models/${model.id}`}
+                className="group glassmorphism rounded-lg overflow-hidden hover:border-primary transition-all"
+              >
+                {/* Image */}
+                <div className="relative aspect-square bg-surface overflow-hidden">
+                  <img
+                    src={model.image}
+                    alt={model.title}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60"></div>
+                </div>
+
+                {/* Info */}
+                <div className="p-3 space-y-2">
+                  <h3 className="font-semibold text-sm line-clamp-2 group-hover:text-primary transition-colors">
+                    {model.title}
+                  </h3>
+
+                  <div className="flex items-center justify-between text-xs">
+                    {model.isPro && (
+                      <span className="px-2 py-0.5 bg-accent text-black font-bold rounded">
+                        PRO
+                      </span>
+                    )}
+
+                    <div className="flex items-center gap-2 text-foreground/60 ml-auto">
+                      {model.comments > 0 && (
+                        <div className="flex items-center gap-1">
+                          <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M2 5a2 2 0 012-2h12a2 2 0 012 2v10a2 2 0 01-2 2H4a2 2 0 01-2-2V5zm3.293 1.293a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 01-1.414-1.414L7.586 10 5.293 7.707a1 1 0 010-1.414zM11 12a1 1 0 100 2h3a1 1 0 100-2h-3z" />
+                          </svg>
+                          <span>{model.comments}</span>
+                        </div>
+                      )}
+
+                      {model.likes > 0 && (
+                        <div className="flex items-center gap-1">
+                          <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z" />
+                          </svg>
+                          <span>{model.likes}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          <div className="text-center mt-8">
+            <button className="px-8 py-3 glassmorphism border-primary/50 font-semibold rounded-lg hover:border-primary transition-all">
+              Show more
+            </button>
+          </div>
+        </section>
       </div>
 
       {/* Payment Modal */}

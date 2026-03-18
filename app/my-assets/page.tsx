@@ -9,12 +9,14 @@ const mockAssets = {
       title: "Modern Living Room",
       downloadedAt: "2024-03-15",
       size: "150 MB",
+      image: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=400&q=80",
     },
     {
       id: 2,
       title: "Scandinavian Bedroom",
       downloadedAt: "2024-03-10",
       size: "200 MB",
+      image: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=400&q=80",
     },
   ],
   courses: [
@@ -88,8 +90,12 @@ export default function MyAssetsPage() {
                     >
                       <div className="flex items-center gap-6">
                         {/* Thumbnail */}
-                        <div className="w-24 h-24 rounded-lg bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center flex-shrink-0">
-                          <span className="text-4xl opacity-30">🏠</span>
+                        <div className="w-24 h-24 rounded-lg bg-surface overflow-hidden flex-shrink-0">
+                          <img
+                            src={model.image}
+                            alt={model.title}
+                            className="w-full h-full object-cover"
+                          />
                         </div>
 
                         {/* Info */}

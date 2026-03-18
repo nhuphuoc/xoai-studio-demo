@@ -125,17 +125,27 @@ export default function HomePage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[1, 2, 3, 4].map((item, index) => (
+            {[
+              { id: 1, img: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=800&q=80" },
+              { id: 2, img: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=800&q=80" },
+              { id: 3, img: "https://images.unsplash.com/photo-1615529328331-f8917597711f?w=800&q=80" },
+              { id: 4, img: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80" },
+            ].map((item, index) => (
               <div
-                key={item}
+                key={item.id}
                 className="group relative glassmorphism rounded-lg overflow-hidden hover:border-accent transition-all duration-500 cursor-pointer animate-scale-in"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
-                {/* Placeholder Image */}
-                <div className="relative aspect-[4/3] bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center overflow-hidden">
-                  <div className="text-6xl opacity-30 group-hover:scale-125 transition-transform duration-500 group-hover:rotate-12">
-                    🏠
-                  </div>
+                {/* Model Image */}
+                <div className="relative aspect-[4/3] bg-surface overflow-hidden">
+                  <img
+                    src={item.img}
+                    alt={`Modern Interior Scene ${item.id}`}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+
+                  {/* Dark Overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60 group-hover:opacity-40 transition-opacity"></div>
 
                   {/* Shimmer Effect on Hover */}
                   <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
@@ -156,7 +166,7 @@ export default function HomePage() {
                 {/* Content */}
                 <div className="p-4 space-y-2 relative">
                   <h3 className="font-semibold text-lg group-hover:text-primary transition-colors">
-                    Modern Interior Scene {item}
+                    Modern Interior Scene {item.id}
                   </h3>
                   <div className="flex items-center gap-2 text-sm text-foreground/60">
                     <span>🎨 Vray</span>

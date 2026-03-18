@@ -23,13 +23,13 @@
   }
 
   .glassmorphism {
-    @apply bg-surface/30 backdrop-blur-md border border-white/10;
+    @apply bg-surface/40 backdrop-blur-md border border-white/15;
   }
 
   .grid-bg {
     background-image:
-      linear-gradient(to right, #1a1a1a 1px, transparent 1px),
-      linear-gradient(to bottom, #1a1a1a 1px, transparent 1px);
+      linear-gradient(to right, #2a2a3a 1px, transparent 1px),
+      linear-gradient(to bottom, #2a2a3a 1px, transparent 1px);
     background-size: 50px 50px;
   }
 }

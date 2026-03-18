@@ -10,7 +10,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: "#000000",
+        background: "#0f0f1a",
         foreground: "#ffffff",
         primary: {
           DEFAULT: "#00d4ff",
@@ -20,12 +20,12 @@ const config: Config = {
           DEFAULT: "#39ff14",
           foreground: "#000000",
         },
-        surface: "#0a0a0a",
+        surface: "#1a1a2e",
         card: {
-          DEFAULT: "#0a0a0a",
+          DEFAULT: "#1a1a2e",
           foreground: "#ffffff",
         },
-        border: "#1a1a1a",
+        border: "#2a2a4a",
       },
       boxShadow: {
         "neon-blue": "0 0 10px #00d4ff, 0 0 20px #00d4ff, 0 0 30px #00d4ff",

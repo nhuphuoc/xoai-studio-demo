@@ -87,8 +87,8 @@ export default function HomePage() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-16 bg-surface/50 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5"></div>
+      <section className="py-16 bg-surface/60 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/8 via-accent/8 to-primary/8"></div>
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
@@ -250,20 +250,29 @@ export default function HomePage() {
                 <span className="relative z-10">Tham gia ngay</span>
                 <div className="absolute inset-0 bg-accent animate-glow-pulse"></div>
 
-                {/* Particles on hover */}
-                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity">
-                  {[...Array(6)].map((_, i) => (
-                    <div
-                      key={i}
-                      className="absolute w-1 h-1 bg-white rounded-full animate-ping"
-                      style={{
-                        top: `${Math.random() * 100}%`,
-                        left: `${Math.random() * 100}%`,
-                        animationDelay: `${i * 0.1}s`,
-                      }}
-                    ></div>
-                  ))}
-                </div>
+                {/* Particles on hover - Fixed positions to avoid hydration mismatch */}
+                {mounted && (
+                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                    {[
+                      { top: "20%", left: "15%" },
+                      { top: "60%", left: "85%" },
+                      { top: "40%", left: "25%" },
+                      { top: "80%", left: "70%" },
+                      { top: "30%", left: "55%" },
+                      { top: "70%", left: "40%" },
+                    ].map((pos, i) => (
+                      <div
+                        key={i}
+                        className="absolute w-1 h-1 bg-white rounded-full animate-ping"
+                        style={{
+                          top: pos.top,
+                          left: pos.left,
+                          animationDelay: `${i * 0.1}s`,
+                        }}
+                      ></div>
+                    ))}
+                  </div>
+                )}
               </button>
             </div>
 

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 
 const navLinks = [
@@ -18,9 +19,16 @@ export function Navbar() {
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="text-2xl font-bold text-primary neon-glow-blue px-4 py-2 rounded-lg">
-              Xoi Studio
+          <Link href="/" className="flex items-center space-x-2 group">
+            <div className="relative h-12 w-auto flex items-center">
+              <Image
+                src="/xoi-studio-logo.png"
+                alt="Xoi Studio"
+                width={120}
+                height={48}
+                className="h-12 w-auto object-contain transition-all duration-300 group-hover:drop-shadow-[0_0_10px_rgba(0,212,255,0.8)]"
+                priority
+              />
             </div>
           </Link>
 

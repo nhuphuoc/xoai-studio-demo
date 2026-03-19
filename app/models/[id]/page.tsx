@@ -1,13 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 
 export default function ModelDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-  const [countdown, setCountdown] = useState(300); // 5 minutes
+  const [countdown, setCountdown] = useState(300);
   const [resolvedParams, setResolvedParams] = useState<{ id: string } | null>(null);
   const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const [descExpanded, setDescExpanded] = useState(false);
+  const [liked, setLiked] = useState(false);
 
   const images = [
     "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200&q=80",
@@ -61,181 +63,188 @@ export default function ModelDetailPage({ params }: { params: Promise<{ id: stri
   }
 
   return (
-    <div className="pt-20 min-h-screen">
-      <div className="container mx-auto px-4 py-8">
-        {/* Breadcrumb */}
-        <div className="mb-6 flex items-center gap-2 text-sm text-foreground/60">
-          <Link href="/models" className="hover:text-primary transition-colors">
-            Models
-          </Link>
+    <div className="pt-20 min-h-screen bg-background">
+      {/* Breadcrumb */}
+      <div className="border-b border-white/8">
+        <div className="container mx-auto px-4 py-3 flex items-center gap-2 text-sm text-foreground/50">
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7"/>
+          </svg>
+          <Link href="/models" className="hover:text-primary transition-colors">3D Models</Link>
           <span>/</span>
-          <span className="text-foreground">Modern Living Room</span>
+          <span className="text-foreground/70">Phòng khách / Nội thất</span>
         </div>
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Left: Image Carousel */}
-          <div className="space-y-4">
-            <div className="relative glassmorphism rounded-lg overflow-hidden aspect-[4/3] bg-surface group">
-              <img
-                src={images[activeImageIndex]}
-                alt="Modern Living Room"
-                className="w-full h-full object-cover transition-opacity duration-300"
-              />
+      <div className="container mx-auto px-4 py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-8">
 
-              {/* Previous Button */}
-              <button
-                onClick={prevImage}
-                className="absolute left-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full glassmorphism flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-primary/20"
-              >
-                <svg
-                  className="w-6 h-6 text-primary"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+          {/* ── LEFT COLUMN ── */}
+          <div className="space-y-5">
+
+            {/* Image viewer: vertical thumbs + main image */}
+            <div className="flex gap-3">
+              {/* Vertical thumbnails */}
+              <div className="hidden md:flex flex-col gap-2 w-[72px] flex-shrink-0">
+                {images.map((img, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setActiveImageIndex(i)}
+                    className={`w-full aspect-square rounded-lg overflow-hidden border-2 transition-all ${
+                      activeImageIndex === i
+                        ? "border-primary shadow-[0_0_10px_rgba(0,212,255,0.4)]"
+                        : "border-white/10 opacity-50 hover:opacity-80 hover:border-white/30"
+                    }`}
+                  >
+                    <img src={img} alt={`Thumb ${i + 1}`} className="w-full h-full object-cover" />
+                  </button>
+                ))}
+              </div>
+
+              {/* Main image */}
+              <div className="relative flex-1 rounded-xl overflow-hidden bg-[#0d0d18] group" style={{ aspectRatio: "4/3" }}>
+                <img
+                  src={images[activeImageIndex]}
+                  alt="Modern Living Room"
+                  className="w-full h-full object-cover transition-opacity duration-300"
+                />
+                <button
+                  onClick={prevImage}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/60 backdrop-blur-sm border border-white/15 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:border-primary/60"
                 >
-                  <path d="M15 19l-7-7 7-7"></path>
-                </svg>
-              </button>
-
-              {/* Next Button */}
-              <button
-                onClick={nextImage}
-                className="absolute right-4 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full glassmorphism flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-primary/20"
-              >
-                <svg
-                  className="w-6 h-6 text-primary"
-                  fill="none"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
+                  <svg className="w-4 h-4 text-white" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M15 19l-7-7 7-7"/>
+                  </svg>
+                </button>
+                <button
+                  onClick={nextImage}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/60 backdrop-blur-sm border border-white/15 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:border-primary/60"
                 >
-                  <path d="M9 5l7 7-7 7"></path>
-                </svg>
-              </button>
-
-              {/* Image Counter */}
-              <div className="absolute bottom-4 right-4 px-3 py-1 rounded-full glassmorphism text-sm">
-                {activeImageIndex + 1} / {images.length}
+                  <svg className="w-4 h-4 text-white" fill="none" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24" stroke="currentColor">
+                    <path d="M9 5l7 7-7 7"/>
+                  </svg>
+                </button>
+                <div className="absolute bottom-3 right-3 px-2.5 py-1 rounded-full bg-black/60 backdrop-blur-sm text-xs text-white/70">
+                  {activeImageIndex + 1} / {images.length}
+                </div>
               </div>
             </div>
 
-            {/* Thumbnail Grid */}
-            <div className="grid grid-cols-4 gap-2">
+            {/* Mobile thumbnails row */}
+            <div className="flex md:hidden gap-2">
               {images.map((img, i) => (
-                <div
-                  key={i}
-                  onClick={() => setActiveImageIndex(i)}
-                  className={`glassmorphism rounded-lg aspect-square overflow-hidden cursor-pointer transition-all bg-surface ${
-                    activeImageIndex === i ? "border-2 border-primary" : "hover:border-primary"
-                  }`}
+                <button key={i} onClick={() => setActiveImageIndex(i)}
+                  className={`w-16 aspect-square rounded-lg overflow-hidden border-2 transition-all ${activeImageIndex === i ? "border-primary" : "border-white/10 opacity-50"}`}>
+                  <img src={img} alt="" className="w-full h-full object-cover"/>
+                </button>
+              ))}
+            </div>
+
+          </div>
+
+          {/* ── RIGHT SIDEBAR ── */}
+          <div className="space-y-4 lg:sticky lg:top-24 lg:self-start">
+
+            {/* Author */}
+            <div className="flex items-center gap-3 pb-4 border-b border-white/10">
+              <div className="w-11 h-11 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center text-black font-bold text-lg flex-shrink-0">
+                M
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-1.5">
+                  <span className="font-semibold text-sm">MinhDesign3D</span>
+                  <svg className="w-3.5 h-3.5 text-primary" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M6.267 3.455a3.066 3.066 0 001.745-.723 3.066 3.066 0 013.976 0 3.066 3.066 0 001.745.723 3.066 3.066 0 012.812 2.812c.051.643.304 1.254.723 1.745a3.066 3.066 0 010 3.976 3.066 3.066 0 00-.723 1.745 3.066 3.066 0 01-2.812 2.812 3.066 3.066 0 00-1.745.723 3.066 3.066 0 01-3.976 0 3.066 3.066 0 00-1.745-.723 3.066 3.066 0 01-2.812-2.812 3.066 3.066 0 00-.723-1.745 3.066 3.066 0 010-3.976 3.066 3.066 0 00.723-1.745 3.066 3.066 0 012.812-2.812zm7.44 5.252a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd"/>
+                  </svg>
+                </div>
+                <span className="text-xs text-foreground/50">128 followers</span>
+              </div>
+              <button className="px-3 py-1.5 rounded-lg border border-primary/40 text-primary text-xs hover:bg-primary/10 transition-colors">
+                Follow
+              </button>
+            </div>
+
+            {/* Title */}
+            <div>
+              <h1 className="text-xl font-bold leading-snug">Modern Living Room</h1>
+            </div>
+
+            {/* Price + actions */}
+            <div className="space-y-3">
+              <div className="flex items-center gap-3">
+                <span className="px-2.5 py-1 bg-accent text-black text-xs font-bold rounded">PRO</span>
+                <span className="text-2xl font-bold text-accent">500.000đ</span>
+                <span className="text-xs text-foreground/40">Royalty free</span>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setShowPaymentModal(true)}
+                  className="flex-1 flex items-center justify-center gap-2 py-3 bg-accent text-black font-bold rounded-xl text-sm hover:bg-accent/90 transition-colors"
                 >
-                  <img
-                    src={img}
-                    alt={`Thumbnail ${i + 1}`}
-                    className="w-full h-full object-cover hover:scale-110 transition-transform"
-                  />
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/>
+                  </svg>
+                  Thêm vào giỏ
+                </button>
+                <button
+                  onClick={() => setLiked(!liked)}
+                  className={`flex items-center gap-1.5 px-4 py-3 rounded-xl border text-sm font-medium transition-all ${liked ? "border-red-500/50 text-red-400 bg-red-500/10" : "border-white/15 text-foreground/60 hover:border-white/30"}`}
+                >
+                  <svg className={`w-4 h-4 ${liked ? "fill-red-400" : "fill-none"}`} stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"/>
+                  </svg>
+                  34
+                </button>
+              </div>
+              <div className="flex items-center justify-center gap-1.5">
+                <svg className="w-3 h-3 text-foreground/30" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd"/>
+                </svg>
+                <span className="text-xs text-foreground/35">Thanh toán an toàn qua VietQR</span>
+              </div>
+            </div>
+
+            {/* Tech specs table */}
+            <div className="rounded-xl border border-white/10 overflow-hidden text-sm">
+              {[
+                { label: "Platform", value: "3dsMax 2022 + obj" },
+                { label: "Render", value: "Vray 5.0" },
+                { label: "Size", value: "150 MB" },
+                { label: "Polygons", value: "1.2M" },
+                { label: "Style", value: "Hiện đại" },
+                { label: "Materials", value: "Vải, Gỗ, Kim loại" },
+                { label: "Colors", value: "3 phối màu" },
+              ].map((row, i) => (
+                <div key={row.label} className={`flex items-center justify-between px-4 py-2.5 ${i % 2 === 0 ? "bg-surface/80" : "bg-surface/40"}`}>
+                  <span className="text-foreground/50">{row.label}</span>
+                  <span className="font-medium text-foreground/90 text-right">{row.value}</span>
                 </div>
               ))}
             </div>
-          </div>
 
-          {/* Right: Details & Purchase */}
-          <div className="space-y-6">
-            <div>
-              <h1 className="text-3xl font-bold mb-2">Modern Living Room</h1>
-              <p className="text-foreground/70">
-                Mô hình phòng khách hiện đại với đầy đủ nội thất và ánh sáng tự nhiên
-              </p>
-            </div>
-
-            {/* Price */}
-            <div className="glassmorphism rounded-lg p-6">
-              <div className="flex items-center justify-between mb-4">
-                <span className="text-foreground/70">Giá:</span>
-                <span className="text-3xl font-bold text-accent">500.000đ</span>
+            {/* Published + description */}
+            <div className="space-y-2">
+              <p className="text-xs text-foreground/40">Published 16 Tháng 3, 2026</p>
+              <div className={`text-sm text-foreground/70 leading-relaxed overflow-hidden transition-all ${descExpanded ? "" : "line-clamp-3"}`}>
+                Bộ sưu tập nội thất phòng khách phong cách hiện đại bao gồm sofa, bàn trà, kệ sách trang trí và các phụ kiện nhỏ. Tất cả vật liệu đã được setup sẵn cho Corona Renderer. Phù hợp với các dự án thiết kế nội thất cao cấp.
               </div>
-
-              <button
-                onClick={() => setShowPaymentModal(true)}
-                className="w-full py-4 bg-accent text-black font-bold rounded-lg hover:bg-accent/90 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-accent/50"
-              >
-                Mua ngay
+              <button onClick={() => setDescExpanded(!descExpanded)} className="text-primary text-xs hover:underline flex items-center gap-1">
+                {descExpanded ? "Thu gọn" : "Xem thêm"}
+                <svg className={`w-3 h-3 transition-transform ${descExpanded ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/>
+                </svg>
               </button>
-
-              <p className="text-xs text-center text-foreground/50 mt-3">
-                Thanh toán an toàn qua VietQR
-              </p>
             </div>
 
-            {/* Technical Details */}
-            <div className="glassmorphism rounded-lg p-6 space-y-4">
-              <h2 className="text-xl font-semibold text-primary mb-4">
-                Thông tin kỹ thuật
-              </h2>
-
-              <table className="w-full text-sm">
-                <tbody className="divide-y divide-white/10">
-                  <tr>
-                    <td className="py-3 text-foreground/70">Phần mềm</td>
-                    <td className="py-3 text-right font-medium">3ds Max 2022</td>
-                  </tr>
-                  <tr>
-                    <td className="py-3 text-foreground/70">Renderer</td>
-                    <td className="py-3 text-right font-medium">Vray 5.0</td>
-                  </tr>
-                  <tr>
-                    <td className="py-3 text-foreground/70">Polygons</td>
-                    <td className="py-3 text-right font-medium">1.2M</td>
-                  </tr>
-                  <tr>
-                    <td className="py-3 text-foreground/70">Textures</td>
-                    <td className="py-3 text-right font-medium">4K PBR</td>
-                  </tr>
-                  <tr>
-                    <td className="py-3 text-foreground/70">Kích thước</td>
-                    <td className="py-3 text-right font-medium">150 MB</td>
-                  </tr>
-                  <tr>
-                    <td className="py-3 text-foreground/70">Định dạng</td>
-                    <td className="py-3 text-right font-medium">.max, .fbx, .obj</td>
-                  </tr>
-                </tbody>
-              </table>
+            {/* Tags */}
+            <div className="flex flex-wrap gap-2">
+              {["phòng khách", "hiện đại", "V-Ray", "sofa", "nội thất", "3ds Max"].map((tag) => (
+                <span key={tag} className="px-3 py-1 text-xs rounded-full border border-white/10 text-foreground/50 bg-surface/50 hover:border-primary/40 hover:text-primary transition-all cursor-pointer">
+                  {tag}
+                </span>
+              ))}
             </div>
 
-            {/* Features */}
-            <div className="glassmorphism rounded-lg p-6">
-              <h2 className="text-xl font-semibold text-primary mb-4">
-                Bao gồm
-              </h2>
-              <ul className="space-y-2 text-sm">
-                <li className="flex items-center gap-2">
-                  <span className="text-accent">✓</span>
-                  <span>File 3D hoàn chỉnh</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-accent">✓</span>
-                  <span>Textures & Materials</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-accent">✓</span>
-                  <span>Lighting setup</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-accent">✓</span>
-                  <span>Camera angles</span>
-                </li>
-                <li className="flex items-center gap-2">
-                  <span className="text-accent">✓</span>
-                  <span>Hỗ trợ kỹ thuật</span>
-                </li>
-              </ul>
-            </div>
           </div>
         </div>
 
@@ -264,7 +273,7 @@ export default function ModelDetailPage({ params }: { params: Promise<{ id: stri
               {
                 id: 3,
                 title: "Classic Glass Chandelier",
-                image: "https://images.unsplash.com/photo-1534449017125-41a7c7fbf643?w=400&q=80",
+                image: "https://images.unsplash.com/photo-1524484485831-a92ffc0de03f?w=400&q=80",
                 isPro: true,
                 comments: 0,
                 likes: 5,

@@ -3,93 +3,131 @@ import Image from "next/image";
 
 export function Footer() {
   return (
-    <footer className="border-t border-white/10 bg-surface/50 mt-20">
+    <footer className="border-t border-white/10 bg-surface/50">
       {/* CTA Banner Section */}
       <div className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10"></div>
-        <div className="container mx-auto px-4 py-16 relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Left - Info */}
-            <div className="space-y-6">
+        {/* Background layers */}
+        <div className="absolute inset-0 bg-gradient-to-br from-[#050d1a] via-[#0a1628] to-[#050d1a]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_20%_50%,rgba(0,212,255,0.12)_0%,transparent_60%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_80%_50%,rgba(57,255,20,0.07)_0%,transparent_60%)]"></div>
+        {/* Grid pattern */}
+        <div className="absolute inset-0 opacity-10" style={{backgroundImage: "linear-gradient(rgba(0,212,255,0.3) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.3) 1px, transparent 1px)", backgroundSize: "40px 40px"}}></div>
+        {/* Top border glow */}
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/60 to-transparent"></div>
+
+        <div className="container mx-auto px-4 py-20 relative z-10">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-start">
+
+            {/* Left - Info (3 cols) */}
+            <div className="lg:col-span-3 space-y-8">
+              {/* Heading */}
               <div>
-                <h2 className="text-4xl font-bold mb-4">
-                  <span className="text-primary">JOIN US</span>
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-primary/10 border border-primary/30 rounded-full mb-5">
+                  <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+                  <span className="text-primary text-xs font-semibold uppercase tracking-widest">Đăng ký tư vấn</span>
+                </div>
+                <h2 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
+                  Bắt đầu hành trình<br />
+                  <span className="text-primary">3D</span> của bạn <span className="text-accent">hôm nay</span>
                 </h2>
-                <p className="text-xl text-foreground/80 mb-2">
-                  Cung cấp các khóa học diễn họa nội thất
-                </p>
-                <p className="text-lg text-accent font-semibold">
-                  3ds Max • AutoCAD • Vray • Corona
+                <p className="text-foreground/60 text-lg">
+                  Để lại thông tin — đội ngũ Xoi Studio sẽ tư vấn miễn phí và chọn khóa học phù hợp nhất cho bạn.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="glassmorphism rounded-lg p-4 border-primary/20 hover:border-primary transition-all">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
-                      <svg className="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              {/* Services */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {[
+                  {
+                    icon: (
+                      <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                       </svg>
-                    </div>
-                    <div>
-                      <div className="font-semibold text-primary">Học online hoặc offline</div>
-                      <div className="text-sm text-foreground/60">Linh hoạt thời gian</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="glassmorphism rounded-lg p-4 border-accent/20 hover:border-accent transition-all">
-                  <div className="flex items-center gap-3">
-                    <div className="w-12 h-12 rounded-full bg-accent/20 flex items-center justify-center">
-                      <svg className="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    ),
+                    color: "primary",
+                    title: "Học online hoặc offline",
+                    desc: "Linh hoạt theo lịch của bạn",
+                  },
+                  {
+                    icon: (
+                      <svg className="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
                       </svg>
+                    ),
+                    color: "accent",
+                    title: "Nhận thiết kế nội thất",
+                    desc: "Chuyên nghiệp, uy tín",
+                  },
+                ].map((item, i) => (
+                  <div key={i} className={`flex items-center gap-4 p-4 rounded-xl border ${item.color === "primary" ? "border-primary/20 bg-primary/5 hover:border-primary/50" : "border-accent/20 bg-accent/5 hover:border-accent/50"} transition-all duration-300 group`}>
+                    <div className={`w-11 h-11 rounded-lg flex items-center justify-center flex-shrink-0 ${item.color === "primary" ? "bg-primary/15" : "bg-accent/15"}`}>
+                      {item.icon}
                     </div>
                     <div>
-                      <div className="font-semibold text-accent">Nhận thiết kế nội thất</div>
-                      <div className="text-sm text-foreground/60">Chuyên nghiệp, uy tín</div>
+                      <div className={`font-semibold text-sm ${item.color === "primary" ? "text-primary" : "text-accent"}`}>{item.title}</div>
+                      <div className="text-xs text-foreground/50 mt-0.5">{item.desc}</div>
                     </div>
                   </div>
+                ))}
+              </div>
+
+              {/* Tags */}
+              <div className="flex flex-wrap gap-2">
+                {["3ds Max", "AutoCAD", "V-Ray", "Corona", "Nội thất", "Diễn họa 3D"].map((tag) => (
+                  <span key={tag} className="px-3 py-1 text-xs rounded-full border border-white/10 text-foreground/50 bg-white/5 hover:border-primary/40 hover:text-primary transition-all cursor-default">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Right - Contact Form (2 cols) */}
+            <div className="lg:col-span-2">
+              <div className="relative">
+                {/* Card glow */}
+                <div className="absolute -inset-px rounded-2xl bg-gradient-to-b from-primary/30 via-primary/10 to-transparent pointer-events-none"></div>
+                <div className="relative bg-[#0a1628]/80 backdrop-blur-md rounded-2xl p-7 border border-primary/20">
+                  <h3 className="text-xl font-bold text-white mb-1">Nhận tư vấn miễn phí</h3>
+                  <p className="text-sm text-foreground/50 mb-6">Phản hồi trong vòng 24 giờ</p>
+                  <form className="space-y-4">
+                    <div>
+                      <label className="block text-xs font-medium text-foreground/60 mb-1.5 uppercase tracking-wide">Họ và tên</label>
+                      <input
+                        type="text"
+                        placeholder="Nhập họ tên của bạn"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-sm focus:border-primary/60 focus:outline-none focus:bg-primary/5 transition-all placeholder:text-foreground/30"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-foreground/60 mb-1.5 uppercase tracking-wide">Số điện thoại</label>
+                      <input
+                        type="tel"
+                        placeholder="0905.000.888"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-sm focus:border-primary/60 focus:outline-none focus:bg-primary/5 transition-all placeholder:text-foreground/30"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-foreground/60 mb-1.5 uppercase tracking-wide">Email</label>
+                      <input
+                        type="email"
+                        placeholder="xoistudio2020@gmail.com"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl text-sm focus:border-primary/60 focus:outline-none focus:bg-primary/5 transition-all placeholder:text-foreground/30"
+                      />
+                    </div>
+                    <div className="relative group pt-1">
+                      <div className="absolute -inset-0.5 bg-gradient-to-r from-primary to-accent rounded-xl blur opacity-40 group-hover:opacity-70 transition-opacity"></div>
+                      <button
+                        type="submit"
+                        className="relative w-full py-3.5 bg-gradient-to-r from-primary to-accent text-black font-bold rounded-xl hover:scale-[1.02] transition-transform text-sm"
+                      >
+                        Gửi thông tin →
+                      </button>
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
 
-            {/* Right - Contact Form */}
-            <div className="glassmorphism rounded-xl p-8 border-primary/30">
-              <h3 className="text-2xl font-bold text-primary mb-6">CONTACT NOW!</h3>
-              <form className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium mb-2">Họ và tên</label>
-                  <input
-                    type="text"
-                    placeholder="Nhập họ tên của bạn"
-                    className="w-full px-4 py-3 bg-surface border border-white/10 rounded-lg focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2">Số điện thoại</label>
-                  <input
-                    type="tel"
-                    placeholder="0905.000.888"
-                    className="w-full px-4 py-3 bg-surface border border-white/10 rounded-lg focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2">Email</label>
-                  <input
-                    type="email"
-                    placeholder="xoistudio2020@gmail.com"
-                    className="w-full px-4 py-3 bg-surface border border-white/10 rounded-lg focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary transition-all"
-                  />
-                </div>
-                <button
-                  type="submit"
-                  className="w-full py-4 bg-accent text-black font-bold rounded-lg hover:bg-accent/90 hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-accent/50"
-                >
-                  Gửi thông tin
-                </button>
-              </form>
-            </div>
           </div>
         </div>
       </div>

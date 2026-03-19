@@ -5,271 +5,227 @@ import { useState } from "react";
 const mockSyllabus = [
   {
     id: 1,
-    title: "Giới thiệu khóa học",
+    title: "Module 1: Giới thiệu Corona Render",
     lessons: [
-      { id: 1, title: "Chào mừng đến với khóa học", duration: "5:30", isUnlocked: true },
-      { id: 2, title: "Cài đặt phần mềm", duration: "12:15", isUnlocked: true },
-      { id: 3, title: "Giao diện 3ds Max", duration: "18:40", isUnlocked: true },
+      { id: 1, title: "Tổng quan về Corona Render", duration: "12:30", isUnlocked: true },
+      { id: 2, title: "Cài đặt và cấu hình ban đầu", duration: "18:45", isUnlocked: true },
+      { id: 3, title: "Giao diện và workflow cơ bản", duration: "22:10", isUnlocked: true },
     ],
   },
   {
     id: 2,
-    title: "Modeling cơ bản",
+    title: "Module 2: Lighting & Camera",
     lessons: [
-      { id: 4, title: "Primitive Objects", duration: "15:20", isUnlocked: true },
-      { id: 5, title: "Editable Poly", duration: "22:30", isUnlocked: true },
-      { id: 6, title: "Modifiers", duration: "20:10", isUnlocked: false },
+      { id: 4, title: "Corona Sun & Sky", duration: "20:00", isUnlocked: true },
+      { id: 5, title: "Interior Lighting Setup", duration: "28:15", isUnlocked: false },
+      { id: 6, title: "Camera & DOF Settings", duration: "16:40", isUnlocked: false },
     ],
   },
   {
     id: 3,
-    title: "Materials & Textures",
+    title: "Module 3: Materials nâng cao",
     lessons: [
-      { id: 7, title: "Material Editor", duration: "18:00", isUnlocked: false },
-      { id: 8, title: "UV Mapping", duration: "25:45", isUnlocked: false },
-      { id: 9, title: "PBR Materials", duration: "30:20", isUnlocked: false },
+      { id: 7, title: "Corona Physical Material", duration: "24:00", isUnlocked: false },
+      { id: 8, title: "Glass & Water Materials", duration: "19:30", isUnlocked: false },
+      { id: 9, title: "Fabric & Wood Textures", duration: "22:50", isUnlocked: false },
     ],
   },
   {
     id: 4,
-    title: "Lighting & Rendering",
+    title: "Module 4: Post-production",
     lessons: [
-      { id: 10, title: "Lighting Basics", duration: "20:00", isUnlocked: false },
-      { id: 11, title: "Vray Settings", duration: "28:30", isUnlocked: false },
-      { id: 12, title: "Final Render", duration: "35:15", isUnlocked: false },
+      { id: 10, title: "Corona VFB & LightMix", duration: "18:00", isUnlocked: false },
+      { id: 11, title: "Photoshop Workflow", duration: "32:10", isUnlocked: false },
+      { id: 12, title: "Final Project", duration: "45:00", isUnlocked: false },
     ],
   },
 ];
 
 export default function LearnPage() {
   const [activeLesson, setActiveLesson] = useState(1);
-  const [activeTab, setActiveTab] = useState<"description" | "files" | "contact">("description");
+  const [activeTab, setActiveTab] = useState<"overview" | "files">("overview");
+  const [expandedModules, setExpandedModules] = useState<number[]>([1]);
+
+  const toggleModule = (id: number) => {
+    setExpandedModules((prev) =>
+      prev.includes(id) ? prev.filter((m) => m !== id) : [...prev, id]
+    );
+  };
+
+  const currentLesson = mockSyllabus
+    .flatMap((m) => m.lessons)
+    .find((l) => l.id === activeLesson);
 
   return (
-    <div className="pt-20 min-h-screen">
-      <div className="grid grid-cols-1 lg:grid-cols-4 gap-0">
-        {/* Main Player - Left */}
-        <div className="lg:col-span-3 bg-black">
-          <div className="sticky top-20">
-            {/* Video Player */}
-            <div className="relative aspect-video bg-black flex items-center justify-center">
-              {/* Placeholder for video player */}
-              <div className="absolute inset-0 flex items-center justify-center">
-                <button className="w-20 h-20 rounded-full bg-primary/20 backdrop-blur-sm border-2 border-primary flex items-center justify-center hover:bg-primary/30 transition-all group">
-                  <svg
-                    className="w-8 h-8 text-primary ml-1 group-hover:scale-110 transition-transform"
-                    fill="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path d="M8 5v14l11-7z" />
-                  </svg>
-                </button>
-              </div>
+    <div className="pt-20 min-h-screen bg-background">
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_380px] min-h-[calc(100vh-80px)]">
 
-              {/* Lesson Title Overlay */}
-              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-6">
-                <h2 className="text-xl font-semibold text-white">
-                  Bài {activeLesson}: Chào mừng đến với khóa học
-                </h2>
-              </div>
-            </div>
+        {/* ── LEFT: Player + Info ── */}
+        <div className="flex flex-col">
 
-            {/* Tabs */}
-            <div className="bg-surface border-t border-white/10">
-              <div className="flex border-b border-white/10">
-                {[
-                  { key: "description", label: "Mô tả" },
-                  { key: "files", label: "Tài liệu" },
-                  { key: "contact", label: "Liên hệ" },
-                ].map((tab) => (
-                  <button
-                    key={tab.key}
-                    onClick={() => setActiveTab(tab.key as any)}
-                    className={`px-6 py-4 font-medium transition-all ${
-                      activeTab === tab.key
-                        ? "text-primary border-b-2 border-primary"
-                        : "text-foreground/60 hover:text-foreground"
-                    }`}
-                  >
-                    {tab.label}
-                  </button>
-                ))}
-              </div>
-
-              {/* Tab Content */}
-              <div className="p-6">
-                {activeTab === "description" && (
-                  <div className="space-y-4">
-                    <h3 className="text-xl font-semibold text-primary">
-                      Về bài học này
-                    </h3>
-                    <p className="text-foreground/80 leading-relaxed">
-                      Trong bài học này, bạn sẽ được làm quen với giao diện 3ds Max,
-                      các công cụ cơ bản và workflow làm việc hiệu quả. Đây là nền tảng
-                      quan trọng để bạn có thể tiếp tục học các bài học nâng cao hơn.
-                    </p>
-                    <div className="glassmorphism rounded-lg p-4">
-                      <h4 className="font-semibold mb-2">Những gì bạn sẽ học:</h4>
-                      <ul className="space-y-2 text-sm text-foreground/80">
-                        <li className="flex items-start gap-2">
-                          <span className="text-accent mt-1">✓</span>
-                          <span>Tổng quan về giao diện 3ds Max</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <span className="text-accent mt-1">✓</span>
-                          <span>Navigation và viewport controls</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <span className="text-accent mt-1">✓</span>
-                          <span>Tùy chỉnh workspace theo workflow cá nhân</span>
-                        </li>
-                        <li className="flex items-start gap-2">
-                          <span className="text-accent mt-1">✓</span>
-                          <span>Shortcuts và tips để làm việc nhanh hơn</span>
-                        </li>
-                      </ul>
-                    </div>
-                  </div>
-                )}
-
-                {activeTab === "files" && (
-                  <div className="space-y-3">
-                    <h3 className="text-xl font-semibold text-primary mb-4">
-                      Tài liệu bài học
-                    </h3>
-                    {[
-                      { name: "Lesson_01_Intro.pdf", size: "2.5 MB" },
-                      { name: "3dsMax_Shortcuts.pdf", size: "1.2 MB" },
-                      { name: "Exercise_Files.zip", size: "15 MB" },
-                    ].map((file, index) => (
-                      <div
-                        key={index}
-                        className="glassmorphism rounded-lg p-4 flex items-center justify-between hover:border-primary transition-all"
-                      >
-                        <div className="flex items-center gap-3">
-                          <div className="w-10 h-10 rounded-lg bg-primary/20 flex items-center justify-center">
-                            <span className="text-xl">📄</span>
-                          </div>
-                          <div>
-                            <div className="font-medium">{file.name}</div>
-                            <div className="text-xs text-foreground/60">{file.size}</div>
-                          </div>
-                        </div>
-                        <button className="px-4 py-2 bg-accent/20 text-accent rounded-lg hover:bg-accent hover:text-black transition-all">
-                          Tải xuống
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {activeTab === "contact" && (
-                  <div className="space-y-4">
-                    <h3 className="text-xl font-semibold text-primary mb-4">
-                      Liên hệ hỗ trợ
-                    </h3>
-                    <div className="glassmorphism rounded-lg p-6 space-y-4">
-                      <p className="text-foreground/80">
-                        Nếu bạn có bất kỳ câu hỏi nào về khóa học, đừng ngần ngại liên hệ với chúng tôi:
-                      </p>
-                      <div className="space-y-3">
-                        <div className="flex items-center gap-3">
-                          <span className="text-2xl">📧</span>
-                          <div>
-                            <div className="text-sm text-foreground/60">Email</div>
-                            <div className="font-medium">support@xoistudio.com</div>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <span className="text-2xl">💬</span>
-                          <div>
-                            <div className="text-sm text-foreground/60">Telegram</div>
-                            <div className="font-medium">@xoistudio</div>
-                          </div>
-                        </div>
-                        <div className="flex items-center gap-3">
-                          <span className="text-2xl">📱</span>
-                          <div>
-                            <div className="text-sm text-foreground/60">Hotline</div>
-                            <div className="font-medium">0123 456 789</div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
+          {/* Video Player */}
+          <div className="relative bg-[#0a0a0f]" style={{ aspectRatio: "16/9" }}>
+            <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+              <button className="w-16 h-16 rounded-full bg-primary/15 border border-primary/40 flex items-center justify-center hover:bg-primary/25 hover:border-primary/70 transition-all group">
+                <svg className="w-6 h-6 text-primary ml-1 group-hover:scale-110 transition-transform" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
+              </button>
+              <span className="text-sm text-foreground/40">Nhấn để xem bài giảng</span>
             </div>
           </div>
-        </div>
 
-        {/* Syllabus Sidebar - Right */}
-        <div className="lg:col-span-1 bg-surface border-l border-white/10">
-          <div className="sticky top-20 max-h-screen overflow-y-auto">
-            <div className="p-4 border-b border-white/10">
-              <h2 className="text-lg font-semibold text-primary">Nội dung khóa học</h2>
-              <p className="text-sm text-foreground/60 mt-1">12 bài học • 4h 30m</p>
-            </div>
-
-            <div className="divide-y divide-white/10">
-              {mockSyllabus.map((chapter) => (
-                <div key={chapter.id}>
-                  <div className="p-4 bg-surface/50">
-                    <h3 className="font-semibold text-sm">{chapter.title}</h3>
-                  </div>
-
-                  <div>
-                    {chapter.lessons.map((lesson) => (
-                      <button
-                        key={lesson.id}
-                        onClick={() => lesson.isUnlocked && setActiveLesson(lesson.id)}
-                        className={`w-full p-4 flex items-start gap-3 hover:bg-surface/50 transition-all ${
-                          activeLesson === lesson.id ? "bg-primary/10 border-l-2 border-primary" : ""
-                        } ${!lesson.isUnlocked ? "opacity-50 cursor-not-allowed" : ""}`}
-                        disabled={!lesson.isUnlocked}
-                      >
-                        {/* Icon */}
-                        <div className="flex-shrink-0 mt-1">
-                          {lesson.isUnlocked ? (
-                            <div className="w-8 h-8 rounded-full bg-primary/20 flex items-center justify-center">
-                              <svg
-                                className="w-4 h-4 text-primary"
-                                fill="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path d="M8 5v14l11-7z" />
-                              </svg>
-                            </div>
-                          ) : (
-                            <div className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center">
-                              <svg
-                                className="w-4 h-4 text-foreground/40"
-                                fill="currentColor"
-                                viewBox="0 0 24 24"
-                              >
-                                <path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z" />
-                              </svg>
-                            </div>
-                          )}
-                        </div>
-
-                        {/* Content */}
-                        <div className="flex-1 text-left">
-                          <div className="text-sm font-medium line-clamp-2">
-                            {lesson.title}
-                          </div>
-                          <div className="text-xs text-foreground/60 mt-1">
-                            {lesson.duration}
-                          </div>
-                        </div>
-                      </button>
-                    ))}
-                  </div>
-                </div>
+          {/* Tabs */}
+          <div className="border-b border-white/10 bg-background">
+            <div className="flex">
+              {[
+                { key: "overview", label: "Tổng quan" },
+                { key: "files", label: "Tài liệu đính kèm" },
+              ].map((tab) => (
+                <button
+                  key={tab.key}
+                  onClick={() => setActiveTab(tab.key as "overview" | "files")}
+                  className={`px-5 py-3.5 text-sm font-medium transition-all border-b-2 ${
+                    activeTab === tab.key
+                      ? "text-primary border-primary"
+                      : "text-foreground/50 border-transparent hover:text-foreground/80"
+                  }`}
+                >
+                  {tab.label}
+                </button>
               ))}
             </div>
           </div>
+
+          {/* Tab Content */}
+          <div className="flex-1 p-6 bg-background">
+            {activeTab === "overview" && (
+              <div className="max-w-2xl space-y-4">
+                <h1 className="text-2xl font-bold leading-snug">
+                  Masterclass Corona Render – Từ Cơ Bản Đến Nâng Cao
+                </h1>
+                <p className="text-sm text-foreground/50">
+                  Tuấn Anh – Xoi Studio · 1,240 học viên
+                </p>
+                <p className="text-foreground/70 leading-relaxed text-sm">
+                  Khóa học chuyên sâu giúp bạn làm chủ Corona Renderer trong 3ds Max. Từ setup scene, lighting, material cho đến post-production chuyên nghiệp. Phù hợp cho cả người mới bắt đầu và designer đã có kinh nghiệm.
+                </p>
+                <div className="space-y-2 pt-2">
+                  <h3 className="font-semibold text-sm text-foreground/80">Bạn sẽ học được:</h3>
+                  <ul className="space-y-1.5">
+                    {[
+                      "Thiết lập scene và workflow chuyên nghiệp trong Corona",
+                      "Kỹ thuật lighting nội thất và ngoại thất",
+                      "Tạo vật liệu thực tế với Corona Physical Material",
+                      "Post-production bằng Corona VFB và Photoshop",
+                    ].map((item) => (
+                      <li key={item} className="flex items-start gap-2 text-sm text-foreground/65">
+                        <svg className="w-4 h-4 text-accent flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd"/>
+                        </svg>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            )}
+
+            {activeTab === "files" && (
+              <div className="max-w-2xl space-y-3">
+                <h3 className="font-semibold text-sm text-foreground/80 mb-4">Tài liệu bài học</h3>
+                {[
+                  { name: "Corona_Render_Guide.pdf", size: "3.2 MB", type: "PDF" },
+                  { name: "Scene_Files_Module1.zip", size: "24 MB", type: "ZIP" },
+                  { name: "Material_Library.zip", size: "85 MB", type: "ZIP" },
+                ].map((file, i) => (
+                  <div key={i} className="flex items-center justify-between p-4 rounded-xl border border-white/10 bg-surface/40 hover:border-primary/40 transition-all">
+                    <div className="flex items-center gap-3">
+                      <div className="w-9 h-9 rounded-lg bg-primary/15 flex items-center justify-center">
+                        <svg className="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+                          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"/>
+                        </svg>
+                      </div>
+                      <div>
+                        <div className="text-sm font-medium">{file.name}</div>
+                        <div className="text-xs text-foreground/40">{file.type} · {file.size}</div>
+                      </div>
+                    </div>
+                    <button className="px-3 py-1.5 text-xs rounded-lg border border-accent/40 text-accent hover:bg-accent hover:text-black transition-all font-medium">
+                      Tải xuống
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
+
+        {/* ── RIGHT: Syllabus Sidebar ── */}
+        <div className="border-l border-white/10 bg-background lg:sticky lg:top-20 lg:h-[calc(100vh-80px)] lg:overflow-y-auto">
+          <div className="p-5 border-b border-white/10">
+            <h2 className="font-semibold text-base">Nội dung khóa học</h2>
+          </div>
+
+          <div className="divide-y divide-white/8">
+            {mockSyllabus.map((chapter) => {
+              const isExpanded = expandedModules.includes(chapter.id);
+              return (
+                <div key={chapter.id}>
+                  {/* Module header */}
+                  <button
+                    onClick={() => toggleModule(chapter.id)}
+                    className="w-full flex items-center justify-between px-5 py-4 hover:bg-surface/40 transition-colors text-left"
+                  >
+                    <span className="text-sm font-semibold text-foreground/90">{chapter.title}</span>
+                    <svg
+                      className={`w-4 h-4 text-foreground/50 flex-shrink-0 transition-transform ${isExpanded ? "rotate-180" : ""}`}
+                      fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7"/>
+                    </svg>
+                  </button>
+
+                  {/* Lessons */}
+                  {isExpanded && (
+                    <div className="bg-surface/20">
+                      {chapter.lessons.map((lesson) => {
+                        const isActive = activeLesson === lesson.id;
+                        return (
+                          <button
+                            key={lesson.id}
+                            onClick={() => lesson.isUnlocked && setActiveLesson(lesson.id)}
+                            disabled={!lesson.isUnlocked}
+                            className={`w-full flex items-center gap-3 px-5 py-3 text-left transition-all ${
+                              isActive
+                                ? "bg-primary/10 border-l-2 border-primary"
+                                : "border-l-2 border-transparent hover:bg-surface/50"
+                            } ${!lesson.isUnlocked ? "opacity-40 cursor-not-allowed" : "cursor-pointer"}`}
+                          >
+                            {/* Play icon */}
+                            <svg
+                              className={`w-4 h-4 flex-shrink-0 ${isActive ? "text-primary" : "text-foreground/40"}`}
+                              fill="currentColor" viewBox="0 0 24 24"
+                            >
+                              <path d="M8 5v14l11-7z"/>
+                            </svg>
+
+                            <span className={`flex-1 text-sm leading-snug ${isActive ? "text-primary font-medium" : "text-foreground/70"}`}>
+                              {lesson.title}
+                            </span>
+
+                            <span className="text-xs text-foreground/40 flex-shrink-0">{lesson.duration}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
       </div>
     </div>
   );

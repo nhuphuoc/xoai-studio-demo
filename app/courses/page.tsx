@@ -43,92 +43,106 @@ const mockCourses = [
   },
 ];
 
+const levelColor: Record<string, string> = {
+  Beginner: "text-accent border-accent/40 bg-accent/10",
+  Intermediate: "text-primary border-primary/40 bg-primary/10",
+  Advanced: "text-orange-400 border-orange-400/40 bg-orange-400/10",
+};
+
+const courseImages: Record<number, string> = {
+  1: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=400&q=80",
+  2: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=400&q=80",
+  3: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=400&q=80",
+  4: "https://images.unsplash.com/photo-1615529328331-f8917597711f?w=400&q=80",
+};
+
 export default function CoursesPage() {
   return (
-    <div className="pt-20 min-h-screen">
-      <div className="container mx-auto px-4 py-8">
+    <div className="pt-20 min-h-screen relative overflow-hidden">
+      {/* Page background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-[#080d1a] via-background to-background pointer-events-none"/>
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,rgba(0,212,255,0.07)_0%,transparent_60%)] pointer-events-none"/>
+      <div className="absolute inset-0 grid-bg opacity-15 pointer-events-none"/>
+
+      <div className="container mx-auto px-4 py-12 relative z-10">
+
         {/* Header */}
-        <div className="mb-12 text-center">
+        <div className="mb-14 text-center">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/10 border border-primary/25 rounded-full mb-5">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"/>
+            <span className="text-primary text-xs font-semibold uppercase tracking-widest">Đào tạo chuyên nghiệp</span>
+          </div>
           <h1 className="text-4xl md:text-5xl font-bold gradient-text mb-4">
             Khóa Học Chuyên Nghiệp
           </h1>
-          <p className="text-xl text-foreground/70 max-w-2xl mx-auto">
+          <p className="text-lg text-foreground/60 max-w-2xl mx-auto">
             Học từ cơ bản đến nâng cao với các giảng viên giàu kinh nghiệm
           </p>
         </div>
 
         {/* Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <div className="glassmorphism rounded-lg p-6 text-center">
-            <div className="text-4xl font-bold text-primary mb-2">1,240+</div>
-            <div className="text-foreground/70">Học viên</div>
-          </div>
-          <div className="glassmorphism rounded-lg p-6 text-center">
-            <div className="text-4xl font-bold text-accent mb-2">360+</div>
-            <div className="text-foreground/70">Bài học</div>
-          </div>
-          <div className="glassmorphism rounded-lg p-6 text-center">
-            <div className="text-4xl font-bold text-primary mb-2">95%</div>
-            <div className="text-foreground/70">Hài lòng</div>
-          </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-14">
+          {[
+            { value: "1,240+", label: "Học viên", color: "primary" },
+            { value: "360+", label: "Bài học", color: "accent" },
+            { value: "95%", label: "Hài lòng", color: "primary" },
+          ].map((stat) => (
+            <div key={stat.label} className="relative rounded-2xl border border-white/10 bg-surface/50 backdrop-blur-sm p-6 text-center overflow-hidden group hover:border-primary/40 transition-all duration-300">
+              <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity bg-[radial-gradient(ellipse_at_50%_100%,rgba(0,212,255,0.06)_0%,transparent_70%)]`}/>
+              <div className={`text-4xl font-bold mb-1.5 ${stat.color === "accent" ? "text-accent" : "text-primary"}`}>
+                {stat.value}
+              </div>
+              <div className="text-sm text-foreground/55">{stat.label}</div>
+            </div>
+          ))}
         </div>
 
         {/* Courses Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           {mockCourses.map((course) => (
             <div
               key={course.id}
-              className="glassmorphism rounded-lg overflow-hidden hover:border-primary transition-all duration-300 group"
+              className="group relative rounded-2xl border border-white/10 bg-surface/40 backdrop-blur-sm overflow-hidden hover:border-primary/50 transition-all duration-400 hover:shadow-[0_0_30px_rgba(0,212,255,0.08)]"
             >
-              <div className="grid grid-cols-1 md:grid-cols-3">
+              <div className="flex">
                 {/* Thumbnail */}
-                <div className="md:col-span-1 aspect-square md:aspect-auto bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
-                  <span className="text-6xl opacity-30 group-hover:scale-110 transition-transform duration-300">
-                    📚
-                  </span>
+                <div className="relative w-[160px] flex-shrink-0 overflow-hidden">
+                  <img
+                    src={courseImages[course.id]}
+                    alt={course.title}
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent to-surface/60"/>
                 </div>
 
                 {/* Content */}
-                <div className="md:col-span-2 p-6 flex flex-col">
-                  <div className="flex-1">
-                    <div className="flex items-start justify-between mb-3">
-                      <h3 className="text-xl font-bold group-hover:text-primary transition-colors">
-                        {course.title}
-                      </h3>
-                      <span className="px-2 py-1 bg-accent/20 text-accent text-xs rounded">
-                        {course.level}
-                      </span>
-                    </div>
-
-                    <p className="text-foreground/70 text-sm mb-4 line-clamp-2">
-                      {course.description}
-                    </p>
-
-                    <div className="grid grid-cols-3 gap-2 text-xs text-foreground/60 mb-4">
-                      <div className="flex items-center gap-1">
-                        <span>⏱️</span>
-                        <span>{course.duration}</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <span>📖</span>
-                        <span>{course.lessons} bài</span>
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <span>👥</span>
-                        <span>{course.students}</span>
-                      </div>
-                    </div>
+                <div className="flex-1 p-5 flex flex-col min-w-0">
+                  <div className="flex items-start justify-between gap-2 mb-2">
+                    <h3 className="font-bold text-base leading-snug group-hover:text-primary transition-colors line-clamp-2">
+                      {course.title}
+                    </h3>
+                    <span className={`flex-shrink-0 px-2 py-0.5 rounded border text-xs font-semibold ${levelColor[course.level]}`}>
+                      {course.level}
+                    </span>
                   </div>
 
-                  <div className="flex items-center justify-between pt-4 border-t border-white/10">
-                    <div className="text-2xl font-bold text-accent">
-                      {course.price}
-                    </div>
+                  <p className="text-foreground/55 text-xs mb-3 line-clamp-2 leading-relaxed">
+                    {course.description}
+                  </p>
+
+                  <div className="flex items-center gap-4 text-xs text-foreground/45 mb-4">
+                    <span className="flex items-center gap-1">⏱ {course.duration}</span>
+                    <span className="flex items-center gap-1">📖 {course.lessons} bài</span>
+                    <span className="flex items-center gap-1">👥 {course.students}</span>
+                  </div>
+
+                  <div className="flex items-center justify-between mt-auto pt-3 border-t border-white/8">
+                    <span className="text-xl font-bold text-accent">{course.price}</span>
                     <Link
                       href={`/courses/${course.id}`}
-                      className="px-6 py-2 bg-primary text-black font-semibold rounded-lg hover:neon-glow-blue transition-all duration-300"
+                      className="px-4 py-2 bg-primary text-black text-xs font-bold rounded-lg hover:bg-primary/90 hover:scale-105 transition-all duration-200"
                     >
-                      Chi tiết
+                      Chi tiết →
                     </Link>
                   </div>
                 </div>
@@ -138,20 +152,29 @@ export default function CoursesPage() {
         </div>
 
         {/* Special Offer */}
-        <div className="mt-12 glassmorphism rounded-xl p-8 neon-glow-green text-center">
-          <div className="max-w-2xl mx-auto">
-            <h2 className="text-3xl font-bold text-accent mb-4">
-              🎁 Ưu đãi đặc biệt
+        <div className="mt-12 relative rounded-2xl overflow-hidden">
+          <div className="absolute inset-0 bg-gradient-to-r from-accent/10 via-primary/10 to-accent/10"/>
+          <div className="absolute inset-0 border border-accent/25 rounded-2xl"/>
+          <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent"/>
+          <div className="relative p-8 text-center">
+            <div className="inline-block px-3 py-1 bg-accent/20 border border-accent/40 rounded-full text-accent text-xs font-bold uppercase tracking-wide mb-4">
+              Ưu đãi có hạn
+            </div>
+            <h2 className="text-2xl font-bold mb-3">
+              🎁 Giảm <span className="text-accent">30%</span> cho khóa học đầu tiên
             </h2>
-            <p className="text-lg text-foreground/90 mb-6">
-              Đăng ký ngay hôm nay để nhận <strong className="text-accent">giảm 30%</strong> cho
-              khóa học đầu tiên. Chỉ dành cho 20 học viên đầu tiên!
+            <p className="text-foreground/60 text-sm mb-6 max-w-md mx-auto">
+              Chỉ dành cho 20 học viên đầu tiên đăng ký trong tháng này. Đừng bỏ lỡ!
             </p>
-            <button className="px-8 py-3 bg-accent text-black font-bold rounded-lg hover:scale-105 transition-all duration-300">
-              Đăng ký ngay
-            </button>
+            <div className="relative inline-block group cursor-pointer">
+              <div className="absolute -inset-0.5 bg-gradient-to-r from-accent to-primary rounded-xl blur opacity-50 group-hover:opacity-75 transition-opacity"/>
+              <button className="relative px-8 py-3 bg-accent text-black font-bold rounded-xl text-sm hover:scale-[1.02] transition-transform">
+                Đăng ký ngay
+              </button>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
   );

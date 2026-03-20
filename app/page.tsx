@@ -33,13 +33,14 @@ export default function HomePage() {
               Nâng Tầm Diễn Họa 3D
             </h1>
 
-            <p className={`text-xl md:text-2xl text-foreground/80 transition-all duration-1000 delay-200 ${mounted ? "animate-fade-in" : "opacity-0"}`}>
-              Khóa học 3ds Max & AutoCAD chuyên nghiệp
-              <br />
-              <span className="inline-block mt-2 animate-shimmer bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent" style={{ backgroundSize: "200% 100%" }}>
-                Kho tài nguyên 3D phong phú - Miễn phí & Premium
-              </span>
-            </p>
+            <div className={`transition-all duration-1000 delay-200 ${mounted ? "animate-fade-in" : "opacity-0"} space-y-2`}>
+              <p className="text-base sm:text-lg md:text-2xl text-foreground/80">
+                Khóa học 3ds Max & AutoCAD chuyên nghiệp
+              </p>
+              <p className="text-sm sm:text-base md:text-xl animate-shimmer bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent" style={{ backgroundSize: "200% 100%" }}>
+                Kho tài nguyên 3D phong phú · Miễn phí & Premium
+              </p>
+            </div>
 
             <div className={`flex flex-col sm:flex-row gap-4 justify-center items-center pt-8 transition-all duration-1000 delay-500 ${mounted ? "animate-slide-up" : "opacity-0"}`}>
               <Link href="/courses" className="group px-8 py-4 bg-primary text-black font-bold rounded-lg hover:scale-105 transition-all duration-300 relative overflow-hidden">

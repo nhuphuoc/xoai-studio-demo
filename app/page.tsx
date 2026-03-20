@@ -30,7 +30,7 @@ export default function HomePage() {
               }`}
               style={{ backgroundSize: "200% 200%", animation: "gradient-shift 8s ease infinite" }}
             >
-              Nâng Tầm Diễn Họa 3D
+              Nâng Tầm Kiến Trúc 3D
             </h1>
 
             <div className={`transition-all duration-1000 delay-200 ${mounted ? "animate-fade-in" : "opacity-0"} space-y-2`}>

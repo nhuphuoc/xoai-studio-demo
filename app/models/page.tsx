@@ -280,32 +280,51 @@ export default function ModelsPage() {
   return (
     <div className="pt-20 min-h-screen">
       {/* Hero Banner */}
-      <section className="relative h-[400px] overflow-hidden bg-gradient-to-r from-accent/20 to-primary/20">
+      <section className="relative overflow-hidden bg-gradient-to-br from-[#08111f] to-[#0d1a2e]">
+        {/* Background image */}
         <div className="absolute inset-0">
-          <Image src="/sample-banner.png" alt="Banner" fill className="object-cover opacity-30" />
+          <Image src="/sample-banner.png" alt="Banner" fill className="object-cover opacity-20" />
         </div>
-        <div className="absolute inset-0 bg-gradient-to-r from-background/80 to-background/60"></div>
-        <div className="container mx-auto px-4 h-full flex items-center relative z-10">
-          <div className="max-w-2xl space-y-6">
-            <h1 className="text-5xl font-black leading-tight">
-              <span className="text-foreground/80">Mua</span><br />
-              <span className="text-primary text-6xl">CREDITS TRƯỚC,</span><br />
-              <span className="text-foreground/80">lấy models</span>{" "}
-              <span className="text-accent text-6xl">SAU</span>
+        <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/70 to-transparent"></div>
+        {/* Ambient glows */}
+        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute bottom-0 left-1/3 w-48 h-48 bg-accent/8 rounded-full blur-3xl pointer-events-none"></div>
+
+        {/* Content */}
+        <div className="container mx-auto px-4 relative z-10 py-10 sm:py-14 md:py-0 md:h-[380px] md:flex md:items-center">
+          <div className="max-w-xl space-y-4">
+            <h1 className="font-black leading-[1.1]">
+              <span className="block text-2xl sm:text-3xl md:text-4xl text-foreground/80">Mua</span>
+              <span className="block text-4xl sm:text-5xl md:text-6xl text-primary">CREDITS TRƯỚC,</span>
+              <span className="block text-2xl sm:text-3xl md:text-4xl text-foreground/80">
+                lấy models <span className="text-accent text-4xl sm:text-5xl md:text-6xl">SAU</span>
+              </span>
             </h1>
-            <p className="text-xl text-foreground/70">Cách đơn giản để có được models bạn cần</p>
-            <button className="px-8 py-4 bg-primary text-black font-bold rounded-xl hover:bg-primary/90 hover:scale-105 transition-all shadow-xl">
-              Mua credits ngay
-            </button>
+            <p className="text-sm sm:text-base md:text-lg text-foreground/65">Cách đơn giản để có được models bạn cần</p>
+            <div className="flex items-center gap-4 pt-1">
+              <button className="px-6 sm:px-8 py-3 sm:py-4 bg-primary text-black font-bold rounded-xl hover:bg-primary/90 hover:scale-105 transition-all shadow-xl text-sm sm:text-base">
+                Mua credits ngay
+              </button>
+              {/* Dots — inline on mobile to avoid overlap with arrows */}
+              <div className="flex gap-2 sm:hidden">
+                {[0,1,2].map((i) => (
+                  <button key={i} onClick={() => setCurrentBanner(i)} className={`h-2 rounded-full transition-all ${currentBanner === i ? "bg-primary w-6" : "bg-white/30 w-2"}`}/>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
-        <button onClick={prevBanner} className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center hover:bg-white/20 transition-all z-20">
-          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7"/></svg>
+
+        {/* Nav arrows — hidden on mobile to avoid overlapping text */}
+        <button onClick={prevBanner} className="hidden sm:flex absolute left-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm items-center justify-center hover:bg-white/20 transition-all z-20">
+          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7"/></svg>
         </button>
-        <button onClick={nextBanner} className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center hover:bg-white/20 transition-all z-20">
-          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/></svg>
+        <button onClick={nextBanner} className="hidden sm:flex absolute right-3 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 backdrop-blur-sm items-center justify-center hover:bg-white/20 transition-all z-20">
+          <svg className="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7"/></svg>
         </button>
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-20">
+
+        {/* Dots — desktop */}
+        <div className="hidden sm:flex absolute bottom-5 left-1/2 -translate-x-1/2 gap-2 z-20">
           {[0,1,2].map((i) => (
             <button key={i} onClick={() => setCurrentBanner(i)} className={`h-2 rounded-full transition-all ${currentBanner === i ? "bg-primary w-8" : "bg-white/30 w-2"}`}/>
           ))}
@@ -335,7 +354,7 @@ export default function ModelsPage() {
       {/* Quick Filters */}
       <section className="bg-background py-6 border-b border-white/10">
         <div className="container mx-auto px-4">
-          <div className="flex flex-wrap gap-3 justify-center">
+          <div className="flex gap-2 sm:gap-3 overflow-x-auto pb-1 sm:flex-wrap sm:justify-center scrollbar-hide">
             {[
               { icon: "🆓", label: "FREE 3D models" },
               { icon: "📦", label: "FBX + 3ds Max" },
@@ -348,10 +367,10 @@ export default function ModelsPage() {
               <button
                 key={index}
                 onClick={() => enterSearch(filter.label)}
-                className="px-6 py-2.5 glassmorphism rounded-full hover:border-primary transition-all group flex items-center gap-2"
+                className="flex-shrink-0 px-4 sm:px-6 py-2 sm:py-2.5 glassmorphism rounded-full hover:border-primary transition-all group flex items-center gap-1.5 sm:gap-2"
               >
-                <span className="text-xl group-hover:scale-125 transition-transform">{filter.icon}</span>
-                <span className="font-medium">{filter.label}</span>
+                <span className="text-lg sm:text-xl group-hover:scale-125 transition-transform">{filter.icon}</span>
+                <span className="font-medium text-sm sm:text-base whitespace-nowrap">{filter.label}</span>
               </button>
             ))}
           </div>

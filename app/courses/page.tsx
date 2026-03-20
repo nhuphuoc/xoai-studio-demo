@@ -72,7 +72,7 @@ export default function CoursesPage() {
             <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"/>
             <span className="text-primary text-xs font-semibold uppercase tracking-widest">Đào tạo chuyên nghiệp</span>
           </div>
-          <h1 className="text-4xl md:text-5xl font-bold gradient-text mb-4">
+          <h1 className="text-3xl md:text-5xl font-bold gradient-text mb-4">
             Khóa Học Chuyên Nghiệp
           </h1>
           <p className="text-lg text-foreground/60 max-w-2xl mx-auto">
@@ -104,24 +104,28 @@ export default function CoursesPage() {
               key={course.id}
               className="group relative rounded-2xl border border-white/10 bg-surface/40 backdrop-blur-sm overflow-hidden hover:border-primary/50 transition-all duration-400 hover:shadow-[0_0_30px_rgba(0,212,255,0.08)]"
             >
-              <div className="flex">
+              <div className="flex flex-col sm:flex-row">
                 {/* Thumbnail */}
-                <div className="relative w-[160px] flex-shrink-0 overflow-hidden">
+                <div className="relative w-full h-44 sm:w-[160px] sm:h-auto flex-shrink-0 overflow-hidden">
                   <img
                     src={courseImages[course.id]}
                     alt={course.title}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-r from-transparent to-surface/60"/>
+                  <div className="absolute inset-0 bg-gradient-to-b sm:bg-gradient-to-r from-transparent to-surface/60"/>
+                  {/* Level badge on mobile (overlaid on image) */}
+                  <span className={`sm:hidden absolute top-3 right-3 px-2 py-0.5 rounded border text-xs font-semibold ${levelColor[course.level]}`}>
+                    {course.level}
+                  </span>
                 </div>
 
                 {/* Content */}
-                <div className="flex-1 p-5 flex flex-col min-w-0">
+                <div className="flex-1 p-4 sm:p-5 flex flex-col min-w-0">
                   <div className="flex items-start justify-between gap-2 mb-2">
                     <h3 className="font-bold text-base leading-snug group-hover:text-primary transition-colors line-clamp-2">
                       {course.title}
                     </h3>
-                    <span className={`flex-shrink-0 px-2 py-0.5 rounded border text-xs font-semibold ${levelColor[course.level]}`}>
+                    <span className={`hidden sm:inline-flex flex-shrink-0 px-2 py-0.5 rounded border text-xs font-semibold ${levelColor[course.level]}`}>
                       {course.level}
                     </span>
                   </div>
@@ -130,7 +134,7 @@ export default function CoursesPage() {
                     {course.description}
                   </p>
 
-                  <div className="flex items-center gap-4 text-xs text-foreground/45 mb-4">
+                  <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-foreground/45 mb-4">
                     <span className="flex items-center gap-1">⏱ {course.duration}</span>
                     <span className="flex items-center gap-1">📖 {course.lessons} bài</span>
                     <span className="flex items-center gap-1">👥 {course.students}</span>
@@ -156,7 +160,7 @@ export default function CoursesPage() {
           <div className="absolute inset-0 bg-gradient-to-r from-accent/10 via-primary/10 to-accent/10"/>
           <div className="absolute inset-0 border border-accent/25 rounded-2xl"/>
           <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent"/>
-          <div className="relative p-8 text-center">
+          <div className="relative p-6 sm:p-8 text-center">
             <div className="inline-block px-3 py-1 bg-accent/20 border border-accent/40 rounded-full text-accent text-xs font-bold uppercase tracking-wide mb-4">
               Ưu đãi có hạn
             </div>

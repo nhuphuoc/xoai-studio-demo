@@ -343,8 +343,13 @@ export default function HomePage() {
 
       {/* CTA Section */}
       <section className="py-20 relative overflow-hidden">
-        <div className="absolute inset-0 grid-bg opacity-50"></div>
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-accent/10 to-primary/10 animate-gradient-shift" style={{ backgroundSize: "200% 200%" }}></div>
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-[#050d1a] to-background"></div>
+        <div className="absolute inset-0 grid-bg opacity-20"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_50%,rgba(0,212,255,0.10)_0%,rgba(57,255,20,0.04)_50%,transparent_70%)]"></div>
+        <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/50 to-transparent"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/50 to-transparent"></div>
+        <div className="absolute top-1/2 left-1/4 -translate-y-1/2 w-72 h-72 bg-primary/8 rounded-full blur-3xl pointer-events-none"></div>
+        <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-72 h-72 bg-accent/8 rounded-full blur-3xl pointer-events-none"></div>
 
         <div className="container mx-auto px-4 relative z-10">
           <AnimateOnScroll className="text-center space-y-6">
@@ -357,27 +362,30 @@ export default function HomePage() {
             </p>
 
             <div className="pt-6">
-              <button className="group relative px-12 py-4 bg-accent text-black text-lg font-bold rounded-lg hover:scale-110 transition-all duration-300 overflow-hidden">
-                <span className="relative z-10">Tham gia ngay</span>
-                <div className="absolute inset-0 bg-accent animate-glow-pulse"></div>
-                {mounted && (
-                  <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity">
-                    {[
-                      { top: "20%", left: "15%" },
-                      { top: "60%", left: "85%" },
-                      { top: "40%", left: "25%" },
-                      { top: "80%", left: "70%" },
-                      { top: "30%", left: "55%" },
-                      { top: "70%", left: "40%" },
-                    ].map((pos, i) => (
-                      <div key={i} className="absolute w-1 h-1 bg-white rounded-full animate-ping" style={{ top: pos.top, left: pos.left, animationDelay: `${i * 0.1}s` }}></div>
-                    ))}
-                  </div>
-                )}
-              </button>
+              <div className="relative inline-block group cursor-pointer">
+                <div className="absolute -inset-0.5 bg-gradient-to-r from-accent to-primary rounded-xl blur opacity-60 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <button className="relative px-12 py-4 bg-accent text-black text-lg font-bold rounded-xl hover:scale-105 transition-transform duration-300 overflow-hidden">
+                  <span className="relative z-10">Tham gia ngay</span>
+                  <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  {mounted && (
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity">
+                      {[
+                        { top: "20%", left: "15%" },
+                        { top: "60%", left: "85%" },
+                        { top: "40%", left: "25%" },
+                        { top: "80%", left: "70%" },
+                        { top: "30%", left: "55%" },
+                        { top: "70%", left: "40%" },
+                      ].map((pos, i) => (
+                        <div key={i} className="absolute w-1 h-1 bg-white rounded-full animate-ping" style={{ top: pos.top, left: pos.left, animationDelay: `${i * 0.1}s` }}></div>
+                      ))}
+                    </div>
+                  )}
+                </button>
+              </div>
             </div>
 
-            <div className="flex justify-center gap-8 pt-8 flex-wrap">
+            <div className="flex justify-center gap-6 pt-8 flex-wrap">
               {[
                 { icon: "🎨", text: "3ds Max" },
                 { icon: "📐", text: "AutoCAD" },
@@ -386,11 +394,11 @@ export default function HomePage() {
               ].map((item, index) => (
                 <div
                   key={index}
-                  className="flex flex-col items-center gap-2 glassmorphism px-6 py-4 rounded-lg hover:border-primary transition-all duration-300 animate-float cursor-pointer group"
+                  className="flex flex-col items-center gap-2 px-6 py-4 rounded-xl border border-white/10 bg-white/5 backdrop-blur-sm hover:border-primary/50 hover:bg-primary/8 transition-all duration-300 animate-float cursor-pointer group"
                   style={{ animationDelay: `${index * 0.5}s` }}
                 >
-                  <span className="text-3xl group-hover:scale-125 transition-transform">{item.icon}</span>
-                  <span className="text-sm text-foreground/70 group-hover:text-primary transition-colors">{item.text}</span>
+                  <span className="text-3xl group-hover:scale-125 transition-transform inline-block">{item.icon}</span>
+                  <span className="text-sm text-foreground/60 group-hover:text-primary transition-colors font-medium">{item.text}</span>
                 </div>
               ))}
             </div>

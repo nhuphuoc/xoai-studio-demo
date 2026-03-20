@@ -102,7 +102,7 @@ export default function HomePage() {
               { id: 4, img: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800&q=80" },
             ].map((item, index) => (
               <AnimateOnScroll key={item.id} delay={index * 80}>
-                <div className="group relative glassmorphism rounded-lg overflow-hidden hover:border-accent transition-all duration-500 cursor-pointer">
+                <Link href={`/models/${item.id}`} className="group relative glassmorphism rounded-lg overflow-hidden hover:border-accent transition-all duration-500 cursor-pointer block">
                   <div className="relative aspect-[4/3] bg-surface overflow-hidden">
                     <img src={item.img} alt={`Modern Interior Scene ${item.id}`} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-60 group-hover:opacity-40 transition-opacity"></div>
@@ -122,7 +122,7 @@ export default function HomePage() {
                     </div>
                     <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-primary to-accent opacity-0 group-hover:opacity-100 transition-opacity"></div>
                   </div>
-                </div>
+                </Link>
               </AnimateOnScroll>
             ))}
           </div>

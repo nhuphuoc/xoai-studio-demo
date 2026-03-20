@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { Navbar } from "@/components/navbar";
 import { Footer } from "@/components/footer";
+import { ScrollToTop } from "@/components/scroll-to-top";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -22,6 +23,7 @@ export default function RootLayout({
   return (
     <html lang="vi" className="dark">
       <body className={`${inter.variable} font-sans antialiased`} suppressHydrationWarning>
+        <ScrollToTop />
         <Navbar />
         <main className="min-h-screen">
           {children}
